@@ -9,4 +9,3 @@ The code in the tutorial and the class use the following three libraries:
 - [GLM](https://github.com/g-truc/glm) - OpenGL Mathematics
 - [GLFW](https://github.com/glfw/glfw)
 - [GLEW](https://github.com/nigels-com/glew) - OpenGL Extension Wrangler
-- 
