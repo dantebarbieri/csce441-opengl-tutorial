@@ -1,0 +1,299 @@
+
+<html>
+    <head><title>CSCE 441 - Computer Graphics (Fall 2018)</title></head>
+    <body>
+    <h1>Setting up OpenGL tutorial</h1>
+    <h2>0. Before you start</h2>
+    <ul>
+        <li>All the assignments are based on OpenGL with GLM/GLFW/GLEW. CMake is used for cross-platform compiling. Do not use system-specific libraries, such as windows.h.</li>
+        <li>Check your system, compiler and IDE information first, then download the test code and read correspoding parts in this tutorial. This tutorial includes the following OSes:
+            <ul>
+                <li><a href="#win">Windows</a></li>
+                <li><a href="#mac">MacOS</a></li>
+                <li><a href="#linux">Linux(Debian)</a></li>
+            </ul>
+        </li>
+        <li>Windows and latest versions of Visual Studio(2015/2017) are recommended. All assignments will be graded in this environment.</li>
+        <li><a href="test_code.zip">Click here</a> to download the test code. This code is only used for testing. Start code will be provided for some assignments. Don't use this test code for assignments.</li>
+        <li>Submission guide:
+            <ul>
+                <li>Put all your source files (*.h, *hpp and *.cpp) in a ./src folder. Put all shader files (if required) in ./shaders.</li>
+                <li>Only zip the ./src and ./shaders folders. <b>DO NOT</b> include CMakeLists.txt or the ./build folder.</li>
+            </ul>
+        <li>Thanks to Drs. Shinjiro Sueda and John Keyser who provided this tutorial.</li>
+        <li>If you have any problems or find any mistakes in these instructions, feel free to come to the TA's office hours or email <a href="mailto:pedrofigueiredo@tamu.edu">pedrofigueiredo@tamu.edu</a>.</li>
+    </ul>
+
+    <h2 id="win">1. Windows</h2>
+    <h3>1.1. Download softwares and libraries</h3>
+    <ul>
+        <li><a href="https://cmake.org/">CMake</a>: Download binary distribution and extract it. (The CMake GUI is in ./bin/cmake-gui.exe) </li>
+        <li><a href="https://visualstudio.microsoft.com/">Visual Studio</a>: Download and install Visual Studio 2017 Community. </li>
+        <li><a href="https://glm.g-truc.net/0.9.9/index.html">GLM</a>: Download GLM and extract it to a proper folder. </li>
+        <li><a href="https://www.glfw.org/">GLFW</a>: Download GLFW and extract it to a proper folder.</li>
+        <li><a href="http://glew.sourceforge.net/">GLEW</a>: Download GLEW <b>windows binaries</b> and extract it to a proper folder.</li>
+    </ul>
+    <p>For example, we extract the three libraries:</p>
+        <ul>
+            <li>GLM to D:\CSCE441\glm<br />
+                There should be some folders and files in it, such as .\cmake\, .\doc\, .\glm\, .\CMakeLists.txt, etc. 
+            </li>
+            <li>GLFW to D:\CSCE441\glfw-3.2.1<br />
+                There should be some folders and files in it, such as .\CMake\, .\deps\, .\docs\, .\CMakeLists.txt, etc.
+            </li>
+            <li>GLEW to D:\CSCE441\glew-2.1.0<br />
+                There should be some folders and files in it, such as .\bin\, .\doc\, .\include\, .\LICENSE.txt, etc.
+            </li>
+        </ul>
+        <img src="./win_img/1.png"><br /><img src="./win_img/2.png"><br /><img src="./win_img/3.png"><br /><img src="./win_img/4.png"><br />
+    <h3>1.2. Setting up environment variables</h3>
+    <ul>
+        <li>Right click "This PC" in any file explore window and select "Properties". Click "Advanced system settings" on the right side. Select "Advanced" and then click "Environment Variables...".</li>
+        <img src="./win_img/5.png"><br /><img src="./win_img/6.png"><br /><img src="./win_img/7.png">
+        <li>Add 3 new user variables:
+            <ul>
+                <li>variable: GLM_INCLUDE_DIR <br />
+                    Value: D:\CSCE441\glm <br />
+                    (or the postion where you extract GLM in last step)
+                </li>
+                <li>variable: GLFW_DIR <br />
+                    Value: D:\CSCE441\glfw-3.2.1 <br />
+                    (or the postion where you extract GLFW in last step)
+                </li>
+                <li>variable: GLEW_DIR <br />
+                    Value: D:\CSCE441\glew-2.1.0 <br />
+                    (or the postion where you extract GLEW in last step)
+                </li>
+            </ul>
+        </li>
+        <img src="./win_img/8.png">
+        <li>To check that these are set correctly, you can run the Windows PowerShell program.  If you type $env:GLM_INCLUDE_DIR, $env:GLFW_DIR, and $env:GLEW_DIR, the powershell should show the correct path.</li>
+        <img src="./win_img/9.png">
+        <li>These steps are based on Win 10. Win 7 is almost the same. </li>
+    </ul>
+    <p>Downloading, installation and setting up environment variables only needs to be done once and can be used forever(unless you remove the installations). All the following steps need to be done for each assignment.</p>
+    <h3>1.3. Generate project with CMake</h3>
+    <ul>
+        <li>Extract test code (or assignment start code) to a folder. After extraction, there should be a "CMakeLists.txt" file (and possibly src and shaders directories). Suppose it's D:\CSCE441\asignments\test_code in our example.</li>
+        <img src="./win_img/10.png">
+        <li>Open CMake and fill the source code box with D:/CSCE441/asignments/test_code and fill the binarries box with D:/CSCE441/asignments/test_code/build (in other words, just add "build" on to the end)</li>
+        <img src="./win_img/11.png">
+        <li>Click "Config" and select your IDE. After clicking "Finish", click "Generate".</li>
+        <img src="./win_img/12.png">
+        <li>A vs project *.sln can be found in D:\CSCE441\asignments\test_code\build.</li>
+    </ul>
+    <h3>1.4. Compile the code</h3>
+    <ul>
+        <li>Open the *.sln file with Visual Studio. </li>
+        <li>In the solution explorer, there is an item with the project name (in the test code, it is OpenGL_Hello_World). Right click it and select "Set as StartUp Project".</li>
+        <img src="./win_img/13.png">
+        <li>Edit, compile and run as normal Visual Studio project. You will see a rotating tetrahedron. </li>
+        <img src="./win_img/14.png">
+        <li>Other IDEs should be similar.</li>
+    </ul>
+    
+    <h2 id="mac">2. MacOS</h2>
+    <h3>2.1. Download softwares and libraries</h3>
+    <ul>
+        <li><a href="https://cmake.org/">CMake</a>: Download and install binary distribution. </li>
+        <li><a href="https://developer.apple.com/xcode/">Xcode</a>: Download and install. </li>
+        <li><a href="https://glm.g-truc.net/0.9.9/index.html">GLM</a>: Download GLM and extract it to a proper folder. </li>
+        <li><a href="https://www.glfw.org/">GLFW</a>: Download GLFW and extract it to a proper folder.<br />
+            If you are using the latest <b>macOS Sierra</b>, you need to compile it on your macbook. Please download the <b>source code</b>(click "Clone on Github") instead.</li>
+        <li><a href="http://glew.sourceforge.net/">GLEW</a>: Download GLEW <b>source code</b> and extract it to a proper folder.</li>
+    </ul>
+        <p>For example, we extract</p>
+        <ul>
+            <li>
+                GLM to ~/Documents/CSCE441/glm<br />
+                There should be some folders and files in it, such as ./cmake/, ./doc/, ./glm/, ./CMakeLists.txt, etc.<br />
+                <img src="./mac_img/1.png">
+            </li>
+            <li>
+                GLFW source code to ~/Documents/CSCE441/glfw-3.2.1 (<b>If Sierra</b>)<br />
+                There should be some folders and files in it, such as ./CMake/, ./deps/, ./docs/, ./CMakeLists.txt, etc.<br />
+                <img src="./mac_img/2.png"><br />
+                Complie GLFW on your mac
+                <ul>
+                    <li>cd to GLEW folder: cd ~/Documents/CSCE441/glfw-3.2.1</li>
+                    <li>Use CMake to build project: cmake . </li>
+                    <li>compile in the terminal: make -j4 </li>
+                </ul>
+                After compiling:<br />
+                <img src="./mac_img/3.png">
+            </li>
+            <li>
+                GLFW binaries to ~/Documents/CSCE441/glfw-3.2.1 (<b>If not Sierra</b>)<br />
+                There should be some folders and files in it, such as .\CMake\, .\deps\, .\docs\, .\CMakeLists.txt, etc.<br />
+                <img src="./mac_img/4.png">
+            </li>
+            <li>
+                GLEW to ~/Documents/CSCE441/glew-2.1.0<br />
+                There should be some folders and files in it, such as .\bin\, .\doc\, .\include\, .\LICENSE.txt, etc.<br />
+                <img src="./mac_img/5.png"><br />
+                Complie GLEW on your mac
+                <ul>
+                    <li>cd to GLEW folder: cd ~/Documents/CSCE441/glew-2.1.0</li>
+                    <li>compile in the terminal: make -j4 </li>
+                </ul>
+                After compiling:<br />
+                <img src="./mac_img/6.png">
+            </li>
+            <li>
+                (You can put them anywhere you like.)
+            </li>
+        </ul>
+        <img src="./mac_img/7.png">
+    <h3>2.2. Setting up environment variables</h3>
+    <ul>
+        <li>Edit ~/.bash_profile (or ~/.bashrc if .bash_profile doesn't exist), add the following 3 lines(or use the postion where you extract GLM/GLFW/GLEW in last step):<br />
+        export GLM_INCLUDE_DIR=$HOME/Documents/CSCE441/glm<br />
+        export GLFW_DIR=$HOME/Documents/CSCE441/glfw-3.2.1<br />
+        export GLEW_DIR=$HOME/Documents/CSCE441/glew-2.0.0<br />
+        The path is depend on the position where you extract GLM/GLFW/GLEW in last step.</li>
+        <img src="./mac_img/8.png">
+        <li>Use "source ~/.bash_profile" or "source ~/.bashrc" to make them take effect.</li>
+        <li>In the terminal, try echo $GLM_INCLUDE_DIR, echo $GLFW_DIR and echo $GLEW_DIR, the terminal should show the correct path.</li>
+        <img src="./mac_img/9.png">
+    </ul>
+    <p>Downloading, installation and setting up environment variables only need to be done once and can be used forever(unless you remove them). All following steps need to be done for each assignments.</p>
+    <p>You can use either Xcode or terminal to build your code. If you use Xcode, please read 2.3.A and 2.4.A. Otherwise, read 2.3.B and 2.4.B.</p>
+    <h3>2.3.A Generate project with CMake for Xcode</h3>
+    <ul>
+        <li>Extract test code(or assignment start code) to a folder. After extraction, there shold be a "CMakeLists.txt" file. Suppose it's ~/Documents/CSCE441/asignments/test_code in our example.</li>
+        <img src="./mac_img/10.png">
+        <li>Open terminal and cd to this folder. </li>
+        <li>Run following:
+        mkdir build<br />
+        cd build<br />
+        cmake -G Xcode ..<br />
+        (If it shows CMAKE_C_COMPILER could be found, make sure g++ command works, then run sudo xcode-select --reset in terminal.)
+        </li>
+        <li>A Xcode project *.xcodeproj can be found in ~/Documents/CSCE441/assignments/test_code/build.</li>
+    </ul>
+    <h3>2.4.A Compile the code with Xcode</h3>
+    <ul>
+        <li>Open the *.xcodeproj file with Xcode. </li>
+        <li>In solution explorer, change the target by clicking on "ALL_BUILD" and selecting the item with project name(in the test code, it is OpenGL_Hello_World).</li>
+        <img src="./mac_img/11.png">
+        <li>Click "OpenGL_Hello_World" -> "Edit Scheme" -> "Run" -> "Option". Check option: "Use custom working directory" and set it to the build folder ~/Documents/CSCE441/asignments/test_code/build</li>
+        <img src="./mac_img/14.png">
+        <li>Edit, compile and run as normal Xcode project. You will see a rotating tetrahedron.</li>
+        <img src="./mac_img/12.png">
+    </ul>
+
+    <h3>2.3.B Generate project with CMake for terminal</h3>
+    <ul>
+        <li>Extract test code(or assignment start code) to a folder. After extraction, there shold be a "CMakeLists.txt" file. Suppose it's ~/Documents/CSCE441/asignments/test_code in our example.</li>
+        <img src="./mac_img/10.png">
+        <li>Open terminal and cd to this folder. </li>
+        <li>
+            Run following:<br />
+            mkdir build<br />
+            cd build<br />
+            cmake ..<br />
+            (If it shows CMAKE_C_COMPILER could be found, make sure g++ command works, then run sudo xcode-select --reset in terminal.)
+        </li>
+        <li>A Makefile can be found in ~/Documents/CSCE441/assignments/test_code/build.</li>
+        <li>If you add or remove source files, you need to delete build folder and re-cmake it.</li>
+    </ul>
+    <h3>2.4.B Compile the code with ternimal</h3>
+    <ul>
+        <li>
+            Continue with last step(in build folder) and run in terminal:<br />
+            make -j4<br />
+            ./OpenGL_Hello_World
+        </li>
+        <li>You will see a rotating tetrahedron.</li>
+        <img src="./mac_img/12.png">
+    </ul>
+
+    <h2 id="linux">3. Linux(Debian)</h2>
+    <h3>1.1. Download softwares and libraries</h3>
+    <ul>
+        <li>
+            Download following libraries and softwares:<br />
+            sudo apt-get update<br />
+            sudo apt-get install g++<br />
+            sudo apt-get install cmake<br />
+            sudo apt-get install freeglut3-dev<br />
+            sudo apt-get install libxrandr-dev<br />
+            sudo apt-get install libxinerama-dev<br />
+            sudo apt-get install libxcursor-dev<br />
+        </li>
+        <li><a href="https://glm.g-truc.net/0.9.9/index.html">GLM</a>: Download GLM and extract it to a proper folder. </li>
+        <li><a href="https://www.glfw.org/">GLFW</a>: Download GLFW and extract it to a proper folder.</li>
+        <li><a href="http://glew.sourceforge.net/">GLEW</a>: Download GLEW <b>source code</b> and extract it to a proper folder.</li>
+    </ul>
+        <p>For example, we extract</p>
+        <ul>
+            <li>
+                GLM to ~/Documents/CSCE441/glm<br />
+                There should be some folders and files in it, such as ./cmake/, ./doc/, ./glm/, ./CMakeLists.txt, etc.<br />
+                <img src="./linux_img/1.png">
+            </li>
+            <li>
+                GLFW binaries to ~/Documents/CSCE441/glfw-3.2.1<br />
+                There should be some folders and files in it, such as ./CMake/, ./deps/, ./docs/, ./CMakeLists.txt, etc.<br />
+                <img src="./linux_img/2.png">
+            </li>
+            <li>
+                GLEW to ~/Documents/CSCE441/glew-2.1.0<br />
+                There should be some folders and files in it, such as ./bin/, ./doc/, ./include/, ./LICENSE.txt, etc.<br />
+                <img src="./linux_img/3.png"><br />
+                Complie GLEW on your mac
+                <ul>
+                    <li>cd to GLEW folder: cd ~/Documents/CSCE441/glew-2.1.0</li>
+                    <li>compile in the terminal: make -j4 </li>
+                </ul>
+                After compiling:<br />
+                <img src="./linux_img/4.png">
+            </li>
+            <li>
+                (You can put them anywhere you like.)
+            </li>
+        </ul>
+        <img src="./linux_img/5.png">
+        <h3>3.2. Setting up environment variables</h3>
+        <ul>
+            <li>
+                Edit ~/.profile, add the following 3 lines(or use the postion where you extract GLM/GLFW/GLEW in last step):<br />
+                export GLM_INCLUDE_DIR=$HOME/Documents/CSCE441/glm<br />
+                export GLFW_DIR=$HOME/Documents/CSCE441/glfw-3.2.1<br />
+                export GLEW_DIR=$HOME/Documents/CSCE441/glew-2.0.0<br />
+                The path is depend on the position where you extract GLM/GLFW/GLEW in last step.
+            </li>
+            <img src="./linux_img/6.png">
+            <li>Use "source ~/.profile" to make them take effect.</li>
+            <li>In the terminal, try echo $GLM_INCLUDE_DIR, echo $GLFW_DIR and echo $GLEW_DIR, the terminal should show the correct path.</li>
+            <img src="./linux_img/7.png">
+        </ul>
+        <p>Downloading, installation and setting up environment variables only need to be done once and can be used forever(unless you remove them). All following steps need to be done for each assignments.</p>
+        <h3>3.3. Generate project with CMake for terminal</h3>
+        <ul>
+            <li>Extract test code(or assignment start code) to a folder. After extraction, there shold be a "CMakeLists.txt" file. Suppose it's ~\Documents\CSCE441\asignments\test_code in our example.</li>
+            <img src="./linux_img/8.png">
+            <li>Open terminal and cd to this folder. </li>
+            <li>
+                Run following:<br />
+                mkdir build<br />
+                cd build<br />
+                cmake ..<br />
+            </li>
+            <li>A Makefile can be found in ~/Documents/CSCE441/assignments/test_code/build.</li>
+            <li>If you add or remove source files, you need to delete build folder and re-cmake it.</li>
+        </ul>
+        <h3>3.4. Compile the code with ternimal</h3>
+        <ul>
+            <li>
+                Continue with last step(in build folder) and run in terminal:<br />
+                make -j4<br />
+                ./OpenGL_Hello_World
+            </li>
+            <li>You will see a rotating tetrahedron.</li>
+            <img src="./linux_img/9.png">
+        </ul>
+
+    </body>
+</html>
+    
